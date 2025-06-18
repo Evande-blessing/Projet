@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MPRO-Boutique en ligne</title>
+  <link rel="stylesheet" href="evande.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo">
+      <img src="WhatsApp Image 2025-01-22 à 20.29.12_0350db37.jpg" alt="MPRO" style="height:90px; object-fit: contain;" />
+    </div>
+
+    
+    <nav>
+      <button class="menu-toggle" aria-label="Ouvrir le menu">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="#" onclick="showPage('accueil')">Accueil</a></li>
+        <li><a href="#" onclick="showPage('boutique')">Boutique</a></li>
+        <li><a href="#" onclick="showPage('apropos')">À propos</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+        <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <form class="search-bar" onsubmit="event.preventDefault(); searchProducts();">
+      <input type="text" id="searchInput" placeholder="Rechercher des produits..." />
+      <button type="submit">Rechercher</button>
+    </form>
+
+    <div class="user-area">
+      <span id="userGreeting"></span>
+      <button id="loginBtn" onclick="toggleLogin()">Connexion</button>
+      <button id="logoutBtn" onclick="logout()" style="display:none;">Déconnexion</button>
+      <button onclick="toggleCart()">Panier (<span id="cartCount">0</span>)</button>
+    </div>
+  </div>
+</header>
+
+<!-- Contenu principal -->
+<main>
+ 
+
+  <!-- Pages -->
+  <section id="page-accueil" class="page active">
+  <h1>Bienvenue sur MPRO-Boutique</h1>
+  <p>Votre boutique en ligne simplifiée.</p>
+  
+  <div class="carousel-container">
+    <button class="carousel-btn prev" aria-label="Précédent">&#10094;</button>
+    <div class="carousel-track-container">
+      <ul class="carousel-track" id="carouselTrack">
+        <!-- Les articles seront injectés ici par JavaScript -->
+      </ul>
+    </div>
+    <button class="carousel-btn next" aria-label="Suivant">&#10095;</button>
+  </div>
+</section>
+
+  <section id="page-boutique" class="page">
+    <nav class="category-nav">
+      <ul id="categoryMenu">
+        <li onclick="filterCategory('all')">Tous</li>
+        <li onclick="filterCategory('Décoration')">Décoration</li>
+        <li onclick="filterCategory('Sac')">Sac</li>
+        <li onclick="filterCategory('Accessoire')">Accessoire</li>
+        <li onclick="filterCategory('maison')">Maison</li>
+      </ul>
+    </nav>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <section id="page-apropos" class="page">
+    <h2>À propos de MPRO-Boutique</h2>
+    <p>
+MPRO est une boutique en ligne née de la passion pour les produits de qualité professionnelle à prix abordable.
+Nous sommes une petite équipe motivée, avec pour objectif de rendre accessibles les meilleurs produits à tous.
+
+Nous voulons simplifier l’achat de produits fiables et durables, tout en garantissant un service client rapide et humain.
+Sur MPRO, chaque article est choisi avec soin pour sa qualité et son utilité.
+
+Nous proposons une gamme de produits professionnels : outils, accessoires, appareils pratiques et bien plus encore.
+Chaque produit est testé avant d’être mis en ligne.
+<ul>
+<li>✅ Livraison rapide et sécurisée</li>
+<li>✅ Paiement 100% sécurisé</li>
+<li>✅ Service client disponible 7j/7 </p></li>
+</ul>
+  </section>
+
+  <!-- Contact -->
+  <section id="page-contact" class="page">
+   <h2>Contactez-nous</h2>
+   <p>Vous pouvez nous envoyer un message via le formulaire ci-dessous ou nous contacter directement :</p>
+
+   <form id="contactForm" onsubmit="event.preventDefault(); submitContactForm();">
+     <label for="contactName">Nom :</label><br/>
+     <input type="text" id="contactName" name="contactName" required /><br/><br/>
+
+     <label for="contactEmail">Email :</label><br/>
+     <input type="email" id="contactEmail" name="contactEmail" required /><br/><br/>
+
+     <label for="contactMessage">Message :</label><br/>
+     <textarea id="contactMessage" name="contactMessage" rows="5" required></textarea><br/><br/>
+
+     <button type="submit">Envoyer</button>
+   </form>
+
+   <div id="contactResponse" style="margin-top:15px;"></div>
+
+   <h3>Nos coordonnées</h3>
+    <p>Email : blessingevande@gmail.com</p>
+    <p>Téléphone : +243 811 162 894</p>
+    <p>Adresse : Kinshasa, Republique democratique du congo</p>
+  </section>
+
+  <section id="page-faq" class="page">
+   <h2>Foire aux questions (FAQ)</h2>
+   <div class="faq-item">
+     <button class="faq-question" aria-expanded="false">Comment passer une commande ?</button>
+     <div class="faq-answer" hidden>
+       <p>R/ Ajoutez des produits au panier, puis validez votre commande en suivant les étapes de paiement.</p>
+     </div>
+   </div>
+   <div class="faq-item">
+     <button class="faq-question" aria-expanded="false">Quels moyens de paiement sont acceptés ?</button>
+     <div class="faq-answer" hidden>
+       <p>R/ Nous acceptons les paiements via M-Pesa, Airtel Money et Orange Money.</p>
+     </div>
+   </div>
+   <div class="faq-item">
+     <button class="faq-question" aria-expanded="false">Comment contacter le support ?</button>
+     <div class="faq-answer" hidden>
+       <p>R/ Vous pouvez nous contacter par email à benieevande@gmail.com ou via le formulaire de contact.</p>
+     </div>
+   </div>
+  <!-- Ajoute d’autres questions/réponses ici -->
+ </section>
+
+</main>
+
+<!-- Panier -->
+<div id="cartModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="toggleCart()">&times;</span>
+    <h2>Votre Panier</h2>
+    <div id="cartItems"></div>
+    <div id="cartTotal"></div>
+    <button id="checkoutBtn" onclick="showPayment()" disabled>Payer</button>
+  </div>
+</div>
+
+<!-- Paiement -->
+<div id="paymentModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="closePayment()">&times;</span>
+    <h2>Paiement Mobile</h2>
+    <p>Choisissez votre moyen de paiement :</p>
+    <form id="paymentForm" onsubmit="event.preventDefault(); processPayment();">
+      <label><input type="radio" name="paymentMethod" value="M-Pesa" required /> M-Pesa</label><br/>
+      <label><input type="radio" name="paymentMethod" value="Airtel Money" /> Airtel Money</label><br/>
+      <label><input type="radio" name="paymentMethod" value="Orange Money" /> Orange Money</label><br/><br/>
+      <label>Numéro de téléphone : <input type="tel" id="phoneNumber" required placeholder="Ex: +243 815 306 144" pattern="^\+?\d{8,15}$"/></label><br/><br/>
+      <button type="submit">Payer</button>
+    </form>
+    <div id="paymentMessage"></div>
+  </div>
+</div>
+
+
+ <!-- Login Modal -->
+<div id="loginModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="toggleLogin()">&times;</span>
+    <h2 id="loginTitle">Connexion</h2>
+
+    <!-- Formulaire connexion -->
+    <form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
+      <label>Email : <input type="email" id="loginEmail" required /></label><br/><br/>
+      <label>Mot de passe : <input type="password" id="loginPassword" required /></label><br/><br/>
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <!-- Formulaire inscription -->
+    <form id="registerForm" onsubmit="event.preventDefault(); registerUser();" style="display:none;">
+      <label>Nom d'utilisateur : <input type="text" id="regUsername" required /></label><br/><br/>
+      <label>Email : <input type="email" id="regEmail" required /></label><br/><br/>
+      <label>Mot de passe : <input type="password" id="regPassword" required /></label><br/><br/>
+      <button type="submit">Créer un compte</button>
+    </form>
+
+    <p id="loginMessage"></p>
+    <p id="toggleText">
+      <a href="#" onclick="toggleForms()">Créer un compte</a>
+    </p>
+  </div>
+</div>
+
+
+<footer class="footer-MPRO">
+  <div class="footer-top">
+    <div class="footer-logo-lang">
+      <img src="WhatsApp Image 2025-01-22 à 20.29.12_0350db37.jpg" alt="MPRO-Boutique" class="footer-logo" />
+      <div class="footer-lang-country">
+      
+        <select>
+          <option>Français</option>
+        </select>
+        <span class="footer-country">
+          <img src="drapeau rdc.jpg" alt="Republique democratique du congo " style="width:24px;height:16px;vertical-align:middle;">
+          Republique democratique du congo
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+      © 2025, MPRO-Boutique.com
+    </div>
+  </div>
+</footer>
+
+
+
+<script src="evande.js"></script>
+</body>
+</html>
