@@ -138,7 +138,7 @@ nav {
 }
 
 
-/* Search bar */
+/* Search bar pour la barre de rechercher */
 .search-bar {
   flex-grow: 1;
   margin: 0 20px;
@@ -161,7 +161,7 @@ nav {
   font-weight: bold;
 }
 
-/* User area */
+/* User area pour le boutons connexion */
 .user-area {
   display: flex;
   align-items: center;
