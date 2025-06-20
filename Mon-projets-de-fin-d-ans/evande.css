@@ -254,6 +254,9 @@ main {
   font-weight: bold;
   text-align: center;
 }
+ 
+
+
 
 /* Footer */
 footer {
@@ -322,6 +325,81 @@ footer {
   padding: 2px 6px;
   font-size: 0.8rem;
   margin-left: 10px;
+}
+/* Section Contact entière */
+#page-contact {
+  background-color: #f0f4f8; /* arrière-plan général clair */
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Conteneur de formulaire */
+.contact-box {
+  background-color: #febd69; /* fond blanc pour détacher du fond */
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Titre */
+#page-contact h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2a2a2a;
+}
+
+/* Formulaire */
+#contactForm label {
+  display: block;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+#contactForm input,
+#contactForm textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+#contactForm input,
+#contactForm textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+#contactForm button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#contactForm button:hover {
+  background-color: #004999;
+}
+
+/* Coordonnées à droite ou en bas */
+#page-contact h3 {
+  margin-top: 30px;
+  color: #333;
+}
+
+#page-contact p {
+  color: #555;
+  line-height: 1.6;
 }
 
 /* faq */
