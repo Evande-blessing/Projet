@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-html lang="fr">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MPRO-Boutique en ligne</title>
   <link rel="stylesheet" href="evande.css" />
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+
 </head>
 <body>
 
@@ -48,7 +50,7 @@ html lang="fr">
   <section id="page-accueil" class="page active">
   <h1>Bienvenue sur MPRO-Boutique</h1>
   <p>Votre boutique en ligne simplifiée.</p>
-  
+
   <div class="carousel-container">
     <button class="carousel-btn prev" aria-label="Précédent">&#10094;</button>
     <div class="carousel-track-container">
@@ -73,50 +75,49 @@ html lang="fr">
     <div class="product-grid" id="productGrid"></div>
   </section>
 
+ 
   <section id="page-apropos" class="page">
-    <h2>À propos de MPRO-Boutique</h2>
-    <p>
-MPRO est une boutique en ligne née de la passion pour les produits de qualité professionnelle à prix abordable.
-Nous sommes une petite équipe motivée, avec pour objectif de rendre accessibles les meilleurs produits à tous.
+  <h2>À propos de MPRO-Boutique</h2>
+  <p>
+    MPRO est une boutique en ligne née de la passion pour les produits de qualité professionnelle à prix abordable.<br>
+    Nous sommes une petite équipe motivée, avec pour objectif de rendre accessibles les meilleurs produits à tous.<br><br>
+    Nous voulons simplifier l’achat de produits fiables et durables, tout en garantissant un service client rapide et humain.<br>
+    Sur MPRO, chaque article est choisi avec soin pour sa qualité et son utilité.<br><br>
+    Nous proposons une gamme de produits professionnels : outils, accessoires, appareils pratiques et bien plus encore.<br>
+    Chaque produit est testé avant d’être mis en ligne.
+  </p>
+  <ul>
+    ✅ Livraison rapide et sécurisée<br>
+    ✅ Paiement 100% sécurisé<br>
+    ✅ Service client disponible 7j/7
+  </ul>
+</section>
 
-Nous voulons simplifier l’achat de produits fiables et durables, tout en garantissant un service client rapide et humain.
-Sur MPRO, chaque article est choisi avec soin pour sa qualité et son utilité.
-
-Nous proposons une gamme de produits professionnels : outils, accessoires, appareils pratiques et bien plus encore.
-Chaque produit est testé avant d’être mis en ligne.
-<ul>
-<li>✅ Livraison rapide et sécurisée</li>
-<li>✅ Paiement 100% sécurisé</li>
-<li>✅ Service client disponible 7j/7 </p></li>
-</ul>
   </section>
 
   <!-- Contact -->
   <section id="page-contact" class="page">
-    <div>
-      <h2>Contactez-nous</h2>
+   <h2>Contactez-nous</h2>
    <p>Vous pouvez nous envoyer un message via le formulaire ci-dessous ou nous contacter directement :</p>
 
-   <form id="contactForm" onsubmit="event.preventDefault(); submitContactForm();">
-     <label for="contactName">Nom :</label><br/>
-     <input type="text" id="contactName" name="contactName" required /><br/><br/>
+  <form id="my-form" class="amazon-contact-form" action="https://formspree.io/f/xrbkoogo" method="POST">
+  <div class="form-group">
+    <label for="email">Votre email</label>
+    <input type="email" id="email" name="email" required />
+  </div>
+  <div class="form-group">
+    <label for="message">Votre message</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+  </div>
+  <button id="my-form-button" class="amazon-btn">Envoyer</button>
+  <p id="my-form-status"></p>
+</form>
 
-     <label for="contactEmail">Email :</label><br/>
-     <input type="email" id="contactEmail" name="contactEmail" required /><br/><br/>
-
-     <label for="contactMessage">Message :</label><br/>
-     <textarea id="contactMessage" name="contactMessage" rows="5" required></textarea><br/><br/>
-
-     <button type="submit">Envoyer</button>
-   </form>
-
-   <div id="contactResponse" style="margin-top:15px;"></div>
 
    <h3>Nos coordonnées</h3>
-    <p>Email : blessingevande@gmail.com</p>
+    <p>Email : benieevande@gmail.com</p>
     <p>Téléphone : +243 811 162 894</p>
     <p>Adresse : Kinshasa, Republique democratique du congo</p>
-    </div>
   </section>
 
   <section id="page-faq" class="page">
@@ -139,7 +140,7 @@ Chaque produit est testé avant d’être mis en ligne.
        <p>R/ Vous pouvez nous contacter par email à benieevande@gmail.com ou via le formulaire de contact.</p>
      </div>
    </div>
-  <!-- Ajoute d’autres questions/réponses ici -->
+  
  </section>
 
 </main>
@@ -157,41 +158,64 @@ Chaque produit est testé avant d’être mis en ligne.
 
 <!-- Paiement -->
 <div id="paymentModal" class="modal" style="display:none;">
-  <div class="modal-content">
+  <div class="modal-content payment-modal-content">
     <span class="close" onclick="closePayment()">&times;</span>
     <h2>Paiement Mobile</h2>
     <p>Choisissez votre moyen de paiement :</p>
     <form id="paymentForm" onsubmit="event.preventDefault(); processPayment();">
-      <label><input type="radio" name="paymentMethod" value="M-Pesa" required /> M-Pesa</label><br/>
-      <label><input type="radio" name="paymentMethod" value="Airtel Money" /> Airtel Money</label><br/>
-      <label><input type="radio" name="paymentMethod" value="Orange Money" /> Orange Money</label><br/><br/>
-      <label>Numéro de téléphone : <input type="tel" id="phoneNumber" required placeholder="Ex: +243 815 306 144" pattern="^\+?\d{8,15}$"/></label><br/><br/>
-      <button type="submit">Payer</button>
+      <div class="payment-operators">
+        <label class="operator-choice">
+          <input type="radio" name="paymentMethod" value="M-Pesa" required />
+          <img src="MPESA.jpeg" alt="M-Pesa" class="operator-logo" />
+          <span>M-Pesa</span>
+        </label>
+        <label class="operator-choice">
+          <input type="radio" name="paymentMethod" value="Airtel Money" />
+          <img src="AIRTEL.png" alt="Airtel Money" class="operator-logo" />
+          <span>Airtel Money</span>
+        </label>
+        <label class="operator-choice">
+          <input type="radio" name="paymentMethod" value="Orange Money" />
+          <img src="ORANGE.png" alt="Orange Money" class="operator-logo" />
+          <span>Orange Money</span>
+        </label>
+      </div>
+      <label class="payment-label">Numéro de téléphone :
+        <input type="tel" id="phoneNumber" required placeholder="Ex: +243 815 306 144" pattern="^\+?\d{8,15}$"/>
+      </label>
+      <button type="submit" class="btn-pay">Payer</button>
     </form>
     <div id="paymentMessage"></div>
   </div>
 </div>
 
 
+
  <!-- Login Modal -->
 <div id="loginModal" class="modal" style="display:none;">
-  <div class="modal-content">
+  <div class="modal-content login-modal-content">
     <span class="close" onclick="toggleLogin()">&times;</span>
     <h2 id="loginTitle">Connexion</h2>
 
     <!-- Formulaire connexion -->
-    <form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
-      <label>Email : <input type="email" id="loginEmail" required /></label><br/><br/>
-      <label>Mot de passe : <input type="password" id="loginPassword" required /></label><br/><br/>
-      <button type="submit">Se connecter</button>
+    <form id="loginForm" class="login-form" onsubmit="event.preventDefault(); loginUser();">
+      <label for="loginEmail">Email:</label>
+        <input type="email" id="loginEmail" required placeholder="Votre email" /><br>
+      <label for="loginPassword">Mot de passe:</label>
+         <input type="password" id="loginPassword" required placeholder="Votre mot de passe" /><br>
+      <button type="submit" class="login-btn">Se connecter</button>
     </form>
 
     <!-- Formulaire inscription -->
-    <form id="registerForm" onsubmit="event.preventDefault(); registerUser();" style="display:none;">
-      <label>Nom d'utilisateur : <input type="text" id="regUsername" required /></label><br/><br/>
-      <label>Email : <input type="email" id="regEmail" required /></label><br/><br/>
-      <label>Mot de passe : <input type="password" id="regPassword" required /></label><br/><br/>
-      <button type="submit">Créer un compte</button>
+    <form id="registerForm" class="login-form" onsubmit="event.preventDefault(); registerUser();" style="display:none;">
+       <label for="regUsername">Nom d'utilisateur:</label></li>
+        <input type="text" id="regUsername" required placeholder="Votre nom d'utilisateur" /><br>
+       <label for="regEmail">Email:</label></li>
+        <input type="email" id="regEmail" required placeholder="Votre email" /><br>
+       <label for="regPassword">Mot de passe:</label></li>
+        <input type="password" id="regPassword" required placeholder="Votre mot de passe" /><br>
+         
+      <button type="submit" class="login-btn">Créer un compte</button>
     </form>
 
     <p id="loginMessage"></p>
@@ -200,6 +224,7 @@ Chaque produit est testé avant d’être mis en ligne.
     </p>
   </div>
 </div>
+
 
 
 <footer class="footer-MPRO">

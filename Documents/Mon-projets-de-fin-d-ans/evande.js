@@ -1,9 +1,9 @@
 // Catalogue produits
 const products = [
-  {id: 1, title: "Bouquet de fleur d'argent", price: 50, category: "Décoration", image: "BOUQUET DE FLEURS VISIBLE.jpg"},
-  {id: 2, title: "Color glass", price: 0.5, category: "Accessoire", image: "COLOR GLASSE 5.jpg"},
-  {id: 4, title: "Décoration blanc et or", price: 10.00, category: "Décoration", image: "DECORATION BLANC OR.jpg"},
-  {id: 13, title: "Sac dior", price: 15, category: "Sac", image: "SAC DIOR.jpg"},
+  {id: 1, title: "Bouquet de fleur d'argent", price: 10.00, category: "Décoration", image: "BOUQUET DE FLEURS VISIBLE.jpg"},
+  {id: 2, title: "Color glass", price: 5.00, category: "Accessoire", image: "COLOR GLASSE 5.jpg"},
+  {id: 4, title: "Décoration blanc et or", price: 20.00, category: "Décoration", image: "DECORATION BLANC OR.jpg"},
+  {id: 13, title: "Sac dior", price: 15.00, category: "Sac", image: "SAC DIOR.jpg"},
   {id: 15, title: "vantouse de telephone", price: 3.00, category: "Accessoire", image: "VENTOUSE POUR PHONE 3.jpg"},
   {id: 7, title: "Décoration rose", price: 20.00, category: "Décoration", image: "DECOREATION ROSE.jpg"},
   {id: 8, title: "Electro-dentifrice", price: 5.00, category: "Accessoire", image: "ELECTRO DENTIFRICE 5.jpg"},
@@ -16,7 +16,7 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let loggedUser = localStorage.getItem('loggedUser') || null;
 
 
-// Exemple de produits à afficher dans le carrousel (tu peux utiliser une partie de ton tableau products)
+// Exemple de produits à afficher dans le carrousel 
 const featuredProducts = [
    {id: 1, title: "Bouquet de fleur d'argent", price: 10.00, category: "Décoration", image: "BOUQUET DE FLEURS VISIBLE.jpg"},
    {id: 2, title: "Color glass", price: 5.00, category: "Accessoire", image: "COLOR GLASSE 5.jpg"},
@@ -63,6 +63,47 @@ document.querySelector('.carousel-btn.next').addEventListener('click', () => mov
 
 // Initialisation
 displayCarouselProducts();
+
+// ... (ton code existant)
+
+// Fonction pour déplacer le carrousel (corrigée pour l'auto défilement)
+function moveCarousel(direction) {
+  const itemWidth = carouselTrack.querySelector('li').offsetWidth + 20; // largeur + margin
+  const visibleItems = Math.floor(carouselTrack.parentElement.offsetWidth / itemWidth);
+  const maxIndex = featuredProducts.length - visibleItems;
+
+  if(direction === 'next') {
+    if (currentIndex < maxIndex) {
+      currentIndex++;
+    } else {
+      currentIndex = 0; // retour au début si on est à la fin
+    }
+  } else if(direction === 'prev') {
+    if (currentIndex > 0) {
+      currentIndex--;
+    } else {
+      currentIndex = maxIndex; // va à la fin si on est au début
+    }
+  }
+
+  carouselTrack.style.transform = `translateX(-${ currentIndex * itemWidth }px)`;
+}
+
+// Événements boutons
+document.querySelector('.carousel-btn.prev').addEventListener('click', () => moveCarousel('prev'));
+document.querySelector('.carousel-btn.next').addEventListener('click', () => moveCarousel('next'));
+
+// Initialisation
+displayCarouselProducts();
+
+// --- Défilement automatique ---
+let carouselInterval = setInterval(() => moveCarousel('next'), 1500); // toutes les 3 secondes
+
+// Optionnel : pause au survol du carrousel
+carouselTrack.parentElement.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+carouselTrack.parentElement.addEventListener('mouseleave', () => {
+  carouselInterval = setInterval(() => moveCarousel('next'), 3000);
+});
 
 
 
@@ -174,7 +215,7 @@ function renderCart() {
     div.className = 'cart-item';
     div.innerHTML = `
       <div>${item.title} (x${item.qty})</div>
-      <div>${(item.price * item.qty).toFixed(2)} € 
+      <div>${(item.price * item.qty).toFixed(2)} $
         <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Supprimer">×</button>
       </div>
     `;
@@ -206,7 +247,7 @@ function closePayment() {
   paymentModal.style.display = 'none';
 }
 
-// Traite le paiement (simulation)
+// Traite le paiement 
 function processPayment() {
   const form = document.getElementById('paymentForm');
   const method = form.paymentMethod.value;
@@ -218,9 +259,9 @@ function processPayment() {
     return;
   }
 
-  // Simulation de traitement
+  // traitement
   paymentMessage.style.color = 'green';
-  paymentMessage.textContent = `Paiement de ${cart.reduce((sum, i) => sum + i.price * i.qty, 0).toFixed(2)} € via ${method} en cours...`;
+  paymentMessage.textContent = `Paiement de ${cart.reduce((sum, i) => sum + i.price * i.qty, 0).toFixed(2)} $ via ${method} en cours...`;
 
   setTimeout(() => {
     paymentMessage.textContent = 'Paiement réussi ! Merci pour votre achat.';
@@ -257,7 +298,7 @@ menuToggle.addEventListener('click', () => {
   navLinks.classList.toggle('active');
 });
 
-// Connexion utilisateur (simulation)
+// Connexion utilisateur 
 function toggleLogin() {
   if(loginModal.style.display === 'flex') {
     loginModal.style.display = 'none';
@@ -272,14 +313,14 @@ function loginUser() {
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
 
-  // Simple validation (simulation)
+  // Simple validation 
   if(username === '' || password === '') {
     document.getElementById('loginMessage').textContent = 'Veuillez remplir tous les champs.';
     document.getElementById('loginMessage').style.color = 'red';
     return;
   }
 }
-  // Simuler succès
+  
   // Récupération des utilisateurs enregistrés depuis localStorage
 function getUsers() {
   const users = localStorage.getItem('users');
@@ -391,26 +432,40 @@ function logout() {
   showPage('accueil');
 }
 
-function submitContactForm() {
-  const name = document.getElementById('contactName').value.trim();
-  const email = document.getElementById('contactEmail').value.trim();
-  const message = document.getElementById('contactMessage').value.trim();
-  const responseDiv = document.getElementById('contactResponse');
-
-  if(!name || !email || !message) {
-    responseDiv.style.color = 'red';
-    responseDiv.textContent = 'Veuillez remplir tous les champs.';
-    return;
+// Formulaire de contact (Formspree)
+document.addEventListener("DOMContentLoaded", function() {
+  var form = document.getElementById("my-form");
+  if(form) {
+    form.addEventListener("submit", async function handleSubmit(event) {
+      event.preventDefault();
+      var status = document.getElementById("my-form-status");
+      var data = new FormData(form);
+      fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          status.innerHTML = "Merci pour votre message !";
+          form.reset()
+        } else {
+          response.json().then(data => {
+            if (Object.hasOwn(data, 'errors')) {
+              status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+            } else {
+              status.innerHTML = "Oups ! Il y a eu un problème lors de l'envoi du formulaire."
+            }
+          })
+        }
+      }).catch(error => {
+        status.innerHTML = "Oups ! Il y a eu un problème lors de l'envoi du formulaire."
+      });
+    });
   }
+});
 
-  // Ici tu peux ajouter un appel API pour envoyer le message au serveur
-  // Pour l’instant on simule un envoi réussi
-  responseDiv.style.color = 'green';
-  responseDiv.textContent = 'Merci pour votre message. Nous vous répondrons rapidement.';
-
-  // Réinitialiser le formulaire
-  document.getElementById('contactForm').reset();
-}
 
 // Gestion accordéon FAQ
 document.querySelectorAll('.faq-question').forEach(button => {
@@ -429,8 +484,24 @@ document.querySelectorAll('.faq-question').forEach(button => {
 });
 
 
+// panier
 
+cart.forEach(item => {
+  const product = products.find(p => p.id === item.id);
+  if (!product) return;
 
+  const div = document.createElement('div');
+  div.className = 'cart-item';
+  div.innerHTML = `
+    <img src="${product.image}" alt="${product.title}">
+    <div class="cart-item-details">
+      <div class="cart-item-title">${product.title}</div>
+      <div class="cart-item-price">${product.price} $ × ${item.qty}</div>
+    </div>
+    <button class="remove-btn" data-id="${item.id}">Supprimer</button>
+  `;
+  cartItemsDiv.appendChild(div);
+});
 
 
 // Initialisation
